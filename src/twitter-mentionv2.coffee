@@ -12,6 +12,7 @@
 #   HUBOT_TWITTER_ACCESS_TOKEN_SECRET
 #   HUBOT_TWITTER_MENTION_QUERY
 #   HUBOT_TWITTER_MENTION_ROOM
+#   HUBOT_TWITTER_MESSAGE_FORMATTING
 #
 # Commands:
 #   none
@@ -52,7 +53,7 @@ module.exports = (robot) ->
       if data.statuses? and data.statuses.length > 0
         robot.brain.data.last_tweet = data.statuses[0].id_str
         for tweet in data.statuses.reverse()
-          message = "#{tweet.user.screen_name}: #{tweet.text} (http://twitter.com/statuses/#{tweet.id_str})"
+          message = process.env.HUBOT_TWITTER_MESSAGE_FORMATTING || "#{tweet.user.screen_name}: #{tweet.text} (http://twitter.com/statuses/#{tweet.id_str})"
           robot.messageRoom MENTION_ROOM, message
 
     setTimeout (->
