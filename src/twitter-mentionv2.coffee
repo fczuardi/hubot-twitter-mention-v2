@@ -53,7 +53,11 @@ module.exports = (robot) ->
       if data.statuses? and data.statuses.length > 0
         robot.brain.data.last_tweet = data.statuses[0].id_str
         for tweet in data.statuses.reverse()
-          message = process.env.HUBOT_TWITTER_MESSAGE_FORMATTING ? process.env.HUBOT_TWITTER_MESSAGE_FORMATTING.replace('##SCEEN_NAME##', tweet.user.screen_name).replace('##TWEET_TEXT##', tweet.text).replace('##TWEET_ID##', tweet.id_str) : "#{tweet.user.screen_name}: #{tweet.text} (http://twitter.com/statuses/#{tweet.id_str})"
+          message1 = process.env.HUBOT_TWITTER_MESSAGE_FORMATTING.replace '##SCEEN_NAME##', tweet.user.screen_name
+          message2 = message1.replace '##TWEET_TEXT##', tweet.text
+          message3 = message2.replace '##TWEET_ID##', tweet.id_str
+          defaultMessage = "#{tweet.user.screen_name}: #{tweet.text} (http://twitter.com/statuses/#{tweet.id_str})"
+          message = message3 || defaultMessage
           robot.messageRoom MENTION_ROOM, message
 
     setTimeout (->
