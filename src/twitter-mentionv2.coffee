@@ -52,7 +52,7 @@ module.exports = (robot) ->
       if data.statuses? and data.statuses.length > 0
         robot.brain.data.last_tweet = data.statuses[0].id_str
         for tweet in data.statuses.reverse()
-          message = "#{tweet.text} (http://twitter.com/#{tweet.user.screen_name}/status/#{tweet.id_str})"
+          message = "#{tweet.user.screen_name}: #{tweet.text} (http://twitter.com/statuses/#{tweet.id_str})"
           robot.messageRoom MENTION_ROOM, message
 
     setTimeout (->
